@@ -9,12 +9,16 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from '../environment/environment';
+import { AuthComponent } from './auth/auth.component';
+import { ChatsComponent } from './chats/chats.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    RegisterComponent
+    RegisterComponent,
+    AuthComponent,
+    ChatsComponent
   ],
   imports: [
     BrowserModule,

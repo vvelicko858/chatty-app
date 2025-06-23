@@ -1,0 +1,31 @@
+<div class="login d-flex flex-column justify-content-center align-items-center text-center">
+  <div class="glass-card p-5 rounded-4 shadow-lg">
+    <h1 class="display-4 fw-bold mb-4 text-white">Вход</h1>
+
+    <form [formGroup]="form" (ngSubmit)="login()">
+    <div class="mb-3">
+        <label for="email">Email:</label>
+        <input type="email" id="email" formControlName="email" class="form-control" placeholder="Введите email">
+        <div class="alert alert-danger" *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+          <div *ngIf="form.get('email')?.errors?.['required']">Это поле обязательно</div>
+          <div *ngIf="form.get('email')?.errors?.['email']">Введите корректный email</div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" formControlName="password" class="form-control" placeholder="Введите пароль">
+        <div class="alert alert-danger" *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
+          <div *ngIf="form.get('password')?.errors?.['required']">Это поле обязательно</div>
+        </div>
+      </div>
+
+
+      <button type="submit" class="btn btn-primary btn-lg px-5 glass-button" [disabled]="form.invalid">Войти</button>
+      <a class="btn btn-outline-light btn-lg px-5 glass-button" (click)="back()">Назад</a>
+    </form>
+
+
+  </div>
+
+</div>

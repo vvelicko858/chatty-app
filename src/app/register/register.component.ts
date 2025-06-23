@@ -44,6 +44,9 @@ export class RegisterComponent {
     }
   }
 
+
+
+
   back(): void {
     this.router.navigate(['/']).then();
   }

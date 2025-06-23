@@ -27,7 +27,7 @@
       </div>
 
         <div class="mb-3">
-            <label for="username">Email:</label>
+            <label for="email">Email:</label>
             <input type="email" id="email" formControlName="email" class="form-control" placeholder="Введите email">
             <div class="alert alert-danger" *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
                 <div *ngIf="form.get('email')?.errors?.['required']">Это поле обязательно</div>
