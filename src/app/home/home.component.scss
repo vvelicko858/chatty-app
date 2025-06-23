@@ -1,0 +1,46 @@
+.landing-wrapper {
+  height: 100vh;
+  background: radial-gradient(circle at 20% 30%, #2d1f4d, #0e0e2e 70%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  backdrop-filter: blur(20px);
+  padding: 2rem;
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-radius: 20px;
+    max-width: 600px;
+    width: 100%;
+  }
+
+  .glass-button {
+    border-radius: 30px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+
+    &.btn-primary {
+      background: linear-gradient(to right, #6e3ff6, #b23aff);
+      border: none;
+    }
+
+    &.btn-outline-light {
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    }
+  }
+
+
+}
