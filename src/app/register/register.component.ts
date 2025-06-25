@@ -3,6 +3,9 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
+import { NewUser } from '../shared/data';
+import {HttpService} from '../shared/http.service';
+
 
 @Component({
   selector: 'app-register',
@@ -16,7 +19,8 @@ export class RegisterComponent {
 
   constructor(private fb: FormBuilder, private router: Router,
               private afAuth: AngularFireAuth,
-              private firestore: AngularFirestore) {
+              private firestore: AngularFirestore,
+              private http: HttpService) {
     this.buildForm();
   }
 
@@ -72,7 +76,15 @@ export class RegisterComponent {
       console.log('Регистрация успешна:', user);
 
       alert('Вы успешно зарегистрированы!');
-      this.router.navigate(['/']);
+      const newUser: NewUser = {
+        UID: user.uid,
+        name,
+        username,
+        email
+      };
+
+      this.http.pushUserInBD(newUser);
+      this.router.navigate(['/']).then();
 
     } catch (error) {
       console.error('Ошибка регистрации:', error);

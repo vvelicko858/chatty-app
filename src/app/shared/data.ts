@@ -1,7 +1,8 @@
 export interface NewUser{
+  UID: string;
   id?: string;
   name: string;
-  password: string;
+  username: string;
   email: string;
 }
 

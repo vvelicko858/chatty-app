@@ -1,3 +1,25 @@
-<div>
-  <p>chats works! Поздравляю первый зарегистрированный пользователь!</p>
+<div class="chat-container">
+  <div class="left-column">
+    <div class="search-user">
+      <div class="user-icon"></div>
+      <div class="user-name">{{userName}}</div>
+      <div class="search-box">
+        <input name="searchUser" placeholder="Поиск пользователя" [(ngModel)]="searchUser" (keyup.enter)="searhUser()">
+        <div class="dropdown"*ngIf="user$ | async as user">
+          <div (click)="redirect(user.UID)" class="dropdown-item">
+            <div class="user-icon"></div>
+            {{user.name}}
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="user-list">
+      <app-chat-list></app-chat-list>
+    </div>
+  </div>
+
+  <div class="chat-area">
+    <router-outlet></router-outlet>
+  </div>
 </div>
+

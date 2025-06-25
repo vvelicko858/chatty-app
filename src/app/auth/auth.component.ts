@@ -36,10 +36,8 @@ export class AuthComponent {
     try {
       const userCredential = await this.afAuth.signInWithEmailAndPassword(email, password);
       const user = userCredential.user;
-      console.log('Пользователь вошёл:', user);
       this.router.navigate(['/chats']).then();
     } catch (error) {
-      console.error('Ошибка входа:', error);
       alert('Неверные учетные данные');
     }
   }

@@ -14,7 +14,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router) {}
 
+
+
+
   ngOnInit(): void {
+
     this.routerSub = this.router.events.pipe(
         filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {

@@ -1,0 +1,31 @@
+    <div class="chat-wrapper">
+      <div class="chat-menu glass" *ngIf="user$ | async as user">
+        <span class="contact-name">{{user.name}}</span>
+        <span class="status">Active now</span>
+      </div>
+
+      <div class="chat-content">
+        <div class="message-row left">
+          <div class="avatar"></div>
+          <div class="message friend">
+            ПРОЕКТ ЕЩЁ В РАЗРАБОТКЕ, В БЛИЖАЙШЕЕ ВРЕМЯ ОН БУДЕТ ГОТОВ
+          </div>
+        </div>
+
+        <div class="message-row right">
+          <div class="message mine">
+            ПРОЕКТ ЕЩЁ В РАЗРАБОТКЕ, В БЛИЖАЙШЕЕ ВРЕМЯ ОН БУДЕТ ГОТОВ
+          </div>
+          <div class="avatar"></div>
+        </div>
+
+      </div>
+
+      <div class="button-area glass">
+        <input placeholder="Aa"  [(ngModel)]=messageText name="messageText">
+        <button (click)="sendMessage()">➤</button>
+      </div>
+    </div>
+
+
+

@@ -4,13 +4,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from '../environment/environment';
 import { AuthComponent } from './auth/auth.component';
 import { ChatsComponent } from './chats/chats.component';
+import { ChatListComponent } from './chats/chat-list/chat-list.component';
+import { ChatAreaComponent } from './chats/chat-area/chat-area.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,9 @@ import { ChatsComponent } from './chats/chats.component';
     HomeComponent,
     RegisterComponent,
     AuthComponent,
-    ChatsComponent
+    ChatsComponent,
+    ChatListComponent,
+    ChatAreaComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +32,9 @@ import { ChatsComponent } from './chats/chats.component';
 
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
