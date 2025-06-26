@@ -6,6 +6,8 @@ import {AngularFireDatabase} from '@angular/fire/compat/database';
 
 
 const url = 'https://chatty-app-4b5e9-default-rtdb.europe-west1.firebasedatabase.app/users';
+const url2 = 'https://chatty-app-4b5e9-default-rtdb.europe-west1.firebasedatabase.app/';
+
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -23,45 +25,65 @@ export class HttpService {
     return [userId1, userId2].sort().join('_');
   }
 
-  chatExists(chatId: string) {
-    console.log('Calling chatExists with chatId:', chatId);
-    console.log('this.db is:', this.db);
-    return this.db.object(`/chats/${chatId}`).valueChanges();
+  generatePushId(): string {
+    const timestamp = Date.now().toString(36);
+    const random = Math.random().toString(36).substring(2, 10);
+    return `${timestamp}_${random}`;
   }
 
-  createChatWithFirstMessage(currentUserId: string, otherUserId: string, text: string) {
-    const chatId = this.generateChatId(currentUserId, otherUserId);
-    const messageId = this.db.createPushId();
-    const timestamp = Date.now();
+  chatExists(chatId: string): Observable<boolean> {
+    const chatsUrl = `${url2}/chats.json`;
 
-    const chatData = {
+    return this.http.get<any>(chatsUrl, httpOptions).pipe(
+      map(chats => {
+        if (!chats) {
+          return false;
+        }
+        return Object.keys(chats).some(key => key === chatId);
+      }),
+      catchError(err => {
+        console.error(`Ошибка при проверке чата с id "${chatId}":`, err);
+        return of(false);
+      })
+    );
+  }
+
+  createChatWithFirstMessage(currentUserId: string, otherUserId: string, messageText: string): Promise<any> {
+    const chatId = this.generateChatId(currentUserId, otherUserId);
+    const messageId = this.generatePushId();
+
+    const newChatData = {
       participants: {
         [currentUserId]: true,
         [otherUserId]: true
       },
       lastMessage: {
-        text,
+        text: messageText,
         senderId: currentUserId,
-        timestamp
+        timestamp: Date.now()
+      },
+      messages: {
+        [messageId]: {
+          senderId: currentUserId,
+          text: messageText,
+          timestamp: Date.now()
+        }
       }
     };
 
-    const messageData = {
-      senderId: currentUserId,
-      text,
-      timestamp
-    };
+    const chatUrl = `${url2}/chats/${chatId}.json`;
 
-    const updates: any = {};
-    updates[`/chats/${chatId}`] = chatData;
-    updates[`/messages/${chatId}/${messageId}`] = messageData;
-
-    return this.db.object('/').update(updates);
+    return this.http.put(chatUrl, newChatData, httpOptions)
+      .toPromise()
+      .catch(err => {
+        console.error('Ошибка при создании чата:', err);
+        throw err;
+      });
   }
 
-  sendMessageToChat(chatId: string, senderId: string, text: string) {
-    const messageId = this.db.createPushId();
+  sendMessageToChat(chatId: string, senderId: string, text: string): Promise<any> {
     const timestamp = Date.now();
+    const messageId = this.generatePushId();
 
     const messageData = {
       senderId,
@@ -69,16 +91,45 @@ export class HttpService {
       timestamp
     };
 
-    const updates: any = {};
-    updates[`/messages/${chatId}/${messageId}`] = messageData;
-    updates[`/chats/${chatId}/lastMessage`] = {
-      text,
-      senderId,
-      timestamp
-    };
+    const messageUrl = `${url2}/chats/${chatId}/messages.json`;
+    const lastMessageUrl = `${url2}/chats/${chatId}/lastMessage.json`;
 
-    return this.db.object('/').update(updates);
+    return this.http.get<any>(messageUrl).pipe(
+      catchError(() => of({}))
+    ).toPromise().then(existingMessages => {
+      const updatedMessages = {
+        ...existingMessages,
+        [messageId]: messageData
+      };
+
+      return this.http.put(messageUrl, updatedMessages, httpOptions).toPromise().then(() => {
+        return this.http.put(lastMessageUrl, messageData, httpOptions).toPromise();
+      });
+    }).catch(err => {
+      console.error('Ошибка при отправке сообщения в чат:', err);
+      throw err;
+    });
   }
+
+
+
+  getMessages(chatId: string): Observable<any[]> {
+    const messagesUrl = `${url2}/chats/${chatId}/messages.json`;
+    return this.http.get<any>(messagesUrl).pipe(
+      map(response => {
+        if (!response) return [];
+        return Object.keys(response).map(key => ({
+          id: key,
+          ...response[key]
+        }));
+      }),
+      catchError(err => {
+        console.error('Ошибка при загрузке сообщений:', err);
+        return of([]);
+      })
+    );
+  }
+
 
 
   pushUserInBD(user: NewUser): void {
@@ -114,6 +165,25 @@ export class HttpService {
       catchError(err => {
         console.error('Ошибка при получении пользователя по UID', err);
         return of(undefined);
+      })
+    );
+  }
+
+  getChatsForUser(userId: string): Observable<any[]> {
+    const chatsUrl = `${url2}/chats.json`;
+    return this.http.get<any>(chatsUrl).pipe(
+      map(chats => {
+        if (!chats) return [];
+        return Object.keys(chats)
+          .filter(chatId => chats[chatId].participants?.[userId])
+          .map(chatId => ({
+            id: chatId,
+            ...chats[chatId]
+          }));
+      }),
+      catchError(err => {
+        console.error('Ошибка при загрузке чатов:', err);
+        return of([]);
       })
     );
   }

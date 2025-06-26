@@ -1,31 +1,34 @@
-    <div class="chat-wrapper">
-      <div class="chat-menu glass" *ngIf="user$ | async as user">
-        <span class="contact-name">{{user.name}}</span>
-        <span class="status">Active now</span>
-      </div>
+<div class="chat-wrapper">
+  <div class="chat-menu glass" *ngIf="user$ | async as user">
+    <button class="back-btn" (click)="back()">←</button>
+    <div class="menu-info">
+      <span class="contact-name">{{ user.name }}</span>
+      <span class="status">Active now</span>
+    </div>
+  </div>
 
-      <div class="chat-content">
-        <div class="message-row left">
-          <div class="avatar"></div>
-          <div class="message friend">
-            ПРОЕКТ ЕЩЁ В РАЗРАБОТКЕ, В БЛИЖАЙШЕЕ ВРЕМЯ ОН БУДЕТ ГОТОВ
-          </div>
+  <div class="chat-content" #chatContent>
+    <div *ngFor="let message of messages">
+      <div class="message-row" [ngClass]="{
+        'right': message.senderId === currentUserId,
+        'left': message.senderId !== currentUserId
+      }">
+        <div class="avatar" *ngIf="message.senderId !== currentUserId"></div>
+
+        <div class="message" [ngClass]="{
+          'mine': message.senderId === currentUserId,
+          'friend': message.senderId !== currentUserId
+        }">
+          {{ message.text }}
         </div>
 
-        <div class="message-row right">
-          <div class="message mine">
-            ПРОЕКТ ЕЩЁ В РАЗРАБОТКЕ, В БЛИЖАЙШЕЕ ВРЕМЯ ОН БУДЕТ ГОТОВ
-          </div>
-          <div class="avatar"></div>
-        </div>
-
-      </div>
-
-      <div class="button-area glass">
-        <input placeholder="Aa"  [(ngModel)]=messageText name="messageText">
-        <button (click)="sendMessage()">➤</button>
+        <div class="avatar" *ngIf="message.senderId === currentUserId"></div>
       </div>
     </div>
+  </div>
 
-
-
+  <div class="button-area glass">
+    <input autocomplete="off" placeholder="Введите сообщение" [(ngModel)]="messageText" name="messageText" (keyup.enter)="sendMessage()" />
+    <button class="send-btn" (click)="sendMessage()">➤</button>
+  </div>
+</div>

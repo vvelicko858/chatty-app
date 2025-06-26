@@ -15,16 +15,6 @@
         </div>
       </div>
 
-      <div class="mb-3">
-        <label for="username">Username:</label>
-        <input type="text" id="username" formControlName="username" class="form-control" placeholder="Введите username">
-        <div class="alert alert-danger" *ngIf="form.get('username')?.invalid && form.get('username')?.touched">
-          <div *ngIf="form.get('username')?.errors?.['required']">Это поле обязательно</div>
-          <div *ngIf="form.get('username')?.errors?.['minlength']">
-            Минимальная длина: {{ form.get('username')?.errors?.['minlength']?.requiredLength }} символа
-          </div>
-        </div>
-      </div>
 
         <div class="mb-3">
             <label for="email">Email:</label>

@@ -1,130 +1,16 @@
-<div class="chat-list-item">
-  <div class="avatar"></div>
-  <div class="chat-info">
-    <div class="chat-header">
-      <span class="chat-name">John Doe</span>
-      <span class="status-indicator online"></span>
+<div class="chat-list">
+  <div *ngFor="let chat of chats; let i = index" class="chat-list-item" (click)="getIdChat(chat.otherUserId)">
+    <div class="avatar"></div>
+    <div class="chat-info">
+      <div class="chat-header">
+        <span class="chat-name">{{chat.otherUserName}}</span>
+        <span class="status-indicator online"></span>
+      </div>
+      <div class="last-message">{{ chat.lastMessage.text }}</div>
+      <div class="time-send">{{ chat.lastMessage.timestamp | date:'HH:mm' }}</div>
     </div>
-    <div class="last-message">Проект еще в разработке </div>
   </div>
-</div>
-<div class="chat-list-item">
-  <div class="avatar"></div>
-  <div class="chat-info">
-    <div class="chat-header">
-      <span class="chat-name">John Doe</span>
-      <span class="status-indicator online"></span>
-    </div>
-    <div class="last-message">Проект еще в разработке </div>
-  </div>
-</div>
-<div class="chat-list-item">
-  <div class="avatar"></div>
-  <div class="chat-info">
-    <div class="chat-header">
-      <span class="chat-name">John Doe</span>
-      <span class="status-indicator online"></span>
-    </div>
-    <div class="last-message">Проект еще в разработке </div>
-  </div>
-</div>
-<div class="chat-list-item">
-  <div class="avatar"></div>
-  <div class="chat-info">
-    <div class="chat-header">
-      <span class="chat-name">John Doe</span>
-      <span class="status-indicator online"></span>
-    </div>
-    <div class="last-message">Проект еще в разработке </div>
-  </div>
-</div>
-<div class="chat-list-item">
-  <div class="avatar"></div>
-  <div class="chat-info">
-    <div class="chat-header">
-      <span class="chat-name">John Doe</span>
-      <span class="status-indicator online"></span>
-    </div>
-    <div class="last-message">Проект еще в разработке </div>
-  </div>
-</div>
-<div class="chat-list-item">
-  <div class="avatar"></div>
-  <div class="chat-info">
-    <div class="chat-header">
-      <span class="chat-name">John Doe</span>
-      <span class="status-indicator online"></span>
-    </div>
-    <div class="last-message">Проект еще в разработке </div>
-  </div>
-</div>
-<div class="chat-list-item">
-  <div class="avatar"></div>
-  <div class="chat-info">
-    <div class="chat-header">
-      <span class="chat-name">John Doe</span>
-      <span class="status-indicator online"></span>
-    </div>
-    <div class="last-message">Проект еще в разработке </div>
-  </div>
-</div>
-<div class="chat-list-item">
-  <div class="avatar"></div>
-  <div class="chat-info">
-    <div class="chat-header">
-      <span class="chat-name">John Doe</span>
-      <span class="status-indicator online"></span>
-    </div>
-    <div class="last-message">Проект еще в разработке </div>
-  </div>
-</div>
-<div class="chat-list-item">
-  <div class="avatar"></div>
-  <div class="chat-info">
-    <div class="chat-header">
-      <span class="chat-name">John Doe</span>
-      <span class="status-indicator online"></span>
-    </div>
-    <div class="last-message">Проект еще в разработке </div>
-  </div>
-</div>
-<div class="chat-list-item">
-  <div class="avatar"></div>
-  <div class="chat-info">
-    <div class="chat-header">
-      <span class="chat-name">John Doe</span>
-      <span class="status-indicator online"></span>
-    </div>
-    <div class="last-message">Проект еще в разработке </div>
-  </div>
-</div>
-<div class="chat-list-item">
-  <div class="avatar"></div>
-  <div class="chat-info">
-    <div class="chat-header">
-      <span class="chat-name">John Doe</span>
-      <span class="status-indicator online"></span>
-    </div>
-    <div class="last-message">Проект еще в разработке </div>
-  </div>
-</div>
-<div class="chat-list-item">
-  <div class="avatar"></div>
-  <div class="chat-info">
-    <div class="chat-header">
-      <span class="chat-name">John Doe</span>
-      <span class="status-indicator online"></span>
-    </div>
-    <div class="last-message">Проект еще в разработке </div>
-  </div>
-</div>
-<div class="chat-list-item">
-  <div class="avatar"></div>
-  <div class="chat-info">
-    <div class="chat-header">
-      <span class="chat-name">John Doe</span>
-      <span class="status-indicator online"></span>
-    </div>
-    <div class="last-message">Проект еще в разработке </div>
+  <div *ngIf="chats.length == 0">
+    <p>чатов еще нет, начните переписку, найдя пользователя через email</p>
   </div>
 </div>

@@ -1,66 +1,125 @@
-.chat-list-item {
+.chat-list {
   display: flex;
-  align-items: center;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.03);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  transition: background 0.2s;
-  cursor: pointer;
+  flex-direction: column;
+  overflow-y: auto;
+  height: 100%;
+  padding: 0.5rem;
 
-  &:hover {
-    background: rgba(255, 255, 255, 0.08);
+  &::-webkit-scrollbar {
+    width: 6px;
   }
 
-  .avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    margin-right: 0.75rem;
-    background-color: #4a90e2;
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
   }
 
-  .chat-info {
-    flex: 1;
+  .chat-list-item {
     display: flex;
-    flex-direction: column;
-    overflow: hidden;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInUp 0.4s ease forwards;
 
-    .chat-header {
+    transition: background 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: scale(1.01);
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      margin-right: 0.75rem;
+      background-color: #4a90e2;
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    .chat-info {
+      flex: 1;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      overflow: hidden;
 
-      .chat-name {
-        font-weight: 600;
-        color: #ffffff;
-        font-size: 1rem;
+      .chat-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .chat-name {
+          font-weight: 600;
+          color: #ffffff;
+          font-size: 1rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .status-indicator {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          margin-left: 0.5rem;
+
+          &.online {
+            background-color: #4caf50;
+            box-shadow: 0 0 4px #4caf50;
+          }
+
+          &.read {
+            background-color: #2196f3;
+            box-shadow: 0 0 4px #2196f3;
+          }
+        }
+      }
+
+      .last-message {
+        font-size: 0.875rem;
+        color: #bbb;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
 
-      .status-indicator {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        margin-left: 0.5rem;
-
-        &.online {
-          background-color: #4caf50;
-        }
-
-        &.read {
-          background-color: #2196f3;
-        }
+      .time-send {
+        font-size: 0.75rem;
+        color: #888;
+        margin-top: 0.25rem;
       }
     }
+  }
 
-    .last-message {
-      font-size: 0.875rem;
-      color: #bbb;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+  p {
+    color: #aaa;
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.95rem;
+    opacity: 0.8;
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
   }
 }

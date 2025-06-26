@@ -1,15 +1,24 @@
-<div class="chat-container">
-  <div class="left-column">
+<div class="chat-container" [class.mobile-chat-open]="(chatState.isChatOpen$ | async) && isMobile">
+  <div class="left-column" *ngIf="!isMobile || !chatOpenOnMobile">
     <div class="search-user">
-      <div class="user-icon"></div>
-      <div class="user-name">{{userName}}</div>
+      <div class="user-info">
+        <div class="user-icon">👤</div>
+        <div class="user-name">{{ userName }}</div>
+      </div>
       <div class="search-box">
-        <input name="searchUser" placeholder="Поиск пользователя" [(ngModel)]="searchUser" (keyup.enter)="searhUser()">
-        <div class="dropdown"*ngIf="user$ | async as user">
+        <button type="button" (click)="searhUser()">🔍</button>
+        <input
+          autocomplete="off"
+          name="searchUser"
+          placeholder="Поиск пользователя по email"
+          [(ngModel)]="searchUser"
+          (keyup.enter)="searhUser()"
+        />
+        <div class="dropdown" *ngIf="user$ | async as user">
           <div (click)="redirect(user.UID)" class="dropdown-item">
-            <div class="user-icon"></div>
-            {{user.name}}
-            </div>
+            <div class="user-icon">👤</div>
+            {{ user.name }}
+          </div>
         </div>
       </div>
     </div>
@@ -18,8 +27,7 @@
     </div>
   </div>
 
-  <div class="chat-area">
+  <div class="chat-area" *ngIf="!isMobile || chatOpenOnMobile">
     <router-outlet></router-outlet>
   </div>
 </div>
-
